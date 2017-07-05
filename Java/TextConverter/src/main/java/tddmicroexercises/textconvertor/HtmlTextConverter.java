@@ -3,33 +3,26 @@ package tddmicroexercises.textconvertor;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.stream.Stream;
 
-public class HtmlTextConverter
-{
-    private String fullFilenameWithPath;
+public class HtmlTextConverter {
 
-    public HtmlTextConverter(String fullFilenameWithPath)
-    {
-        this.fullFilenameWithPath = fullFilenameWithPath;
+    private final PlainTextLinesProvider linesProvider;
+
+    public HtmlTextConverter(final PlainTextLinesProvider linesProvider) {
+        this.linesProvider = linesProvider;
     }
 
-    public String convertToHtml() throws IOException{
-    
-	    BufferedReader reader = new BufferedReader(new FileReader(fullFilenameWithPath));
-	    
-	    String line = reader.readLine();
-	    String html = "";
-	    while (line != null)
-	    {
-	    	html += StringEscapeUtils.escapeHtml(line);
-	        html += "<br />";
-	        line = reader.readLine();
-	    }
-	    return html;
+    public String convertToHtml() {
+
+        StringBuffer htmlBuffer = new StringBuffer();
+        linesProvider.getLines().map(this::convertLine).forEach(htmlBuffer::append);
+        return htmlBuffer.toString();
 
     }
 
-	public String getFilename() {
-		return this.fullFilenameWithPath;
-	}
+    private String convertLine(String plainLine) {
+        return StringEscapeUtils.escapeHtml(plainLine) + "<br />";
+    }
+
 }

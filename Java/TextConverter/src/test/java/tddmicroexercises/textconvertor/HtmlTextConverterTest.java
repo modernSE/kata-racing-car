@@ -4,10 +4,19 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import java.util.stream.Stream;
+
 public class HtmlTextConverterTest {
     @Test
     public void foo() {
-        HtmlTextConverter converter = new HtmlTextConverter("foo");
-        assertEquals("fixme", converter.getFilename());
+        PlainTextLinesProvider plainTextLinesProviderMock = new PlainTextLinesProvider() {
+            @Override
+            public Stream<String> getLines() {
+                return Stream.of("foo");
+            }
+        };
+
+        HtmlTextConverter converter = new HtmlTextConverter(plainTextLinesProviderMock);
+        assertEquals("foo<br />", converter.convertToHtml());
     }
 }
