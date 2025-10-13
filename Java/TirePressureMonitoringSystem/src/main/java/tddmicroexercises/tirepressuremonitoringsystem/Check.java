@@ -1,5 +1,6 @@
 package tddmicroexercises.tirepressuremonitoringsystem;
 
-public interface Sensor {
-    double popNextValue();
+public interface Check {
+
+    boolean exeedsRange();
 }
