@@ -8,8 +8,10 @@ public class TestAlarm {
 
     @Test
     public void foo() {
-        Alarm alarm = new Alarm();
-        // alarm.check();
+        var sensor = new ConstantSensorImpl(20);
+        var checker = new CheckerImpl(17,21, sensor);
+        Alarm alarm = new Alarm(checker);
+        alarm.check();
         assertEquals(false, alarm.isAlarmOn());
     }
 }
